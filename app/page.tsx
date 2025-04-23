@@ -14,7 +14,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-5">
-                <h1 className="bg-gradient-to-r from-cyan-800 to-orange-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="bg-gradient-to-r from-gray-800 to-green-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
                   Manage Your Customer Relationships
                 </h1>
                 <p className="text-muted-foreground mx-auto w-2xl md:text-xl">
@@ -40,7 +40,7 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-3 gap-x-4">
+          <div className="grid gap-4 gap-x-4 p-4 md:grid-cols-3">
             <div className="rounded-lg border border-teal-300 bg-white p-6 text-center shadow">
               <div className="flex flex-col items-center space-y-3">
                 <Users className="h-5 w-5 text-teal-600" />
