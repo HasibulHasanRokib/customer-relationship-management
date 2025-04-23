@@ -23,7 +23,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-x-4">
-                <Link href={"/login"}>
+                <Link href={"/auth/login"}>
                   <Button className="px-4">
                     Get Started
                     <ArrowRight className="ml-1 h-4 w-4" />
