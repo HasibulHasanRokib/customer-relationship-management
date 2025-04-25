@@ -28,8 +28,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Spinner } from "../spinner";
+import { signIn } from "@/app/actions/auth";
 
-export function LoginForm() {
+export function SignInForm() {
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,10 +45,10 @@ export function LoginForm() {
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     setError("");
     startTransition(async () => {
-      // const result = await login(values);
-      // if (result.error) {
-      //   setError(result.error);
-      // }
+      const result = await signIn(values);
+      if (result.error) {
+        setError(result.error);
+      }
     });
   };
 

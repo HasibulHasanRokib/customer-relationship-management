@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { SignOut } from "../auth/sign-out";
-import { auth } from "@/auth";
 
 import {
   Sidebar,
@@ -11,15 +10,13 @@ import {
 } from "@/components/ui/sidebar";
 import { Bell, Home, PlusCircle } from "lucide-react";
 import { NavItems } from "./nav-items";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 export async function DashboardLayout({ children }: DashboardLayoutProps) {
-  const session = await auth();
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full flex-col">
@@ -27,20 +24,20 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
           <Sidebar>
             <SidebarHeader className="border-b">
               <div className="flex items-center gap-2 px-2">
-                <Avatar>
+                {/* <Avatar>
                   <AvatarImage src={session?.user.image || ""} />
                   <AvatarFallback className="bg-primary text-white">
                     {session?.user.name?.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
-                </Avatar>
+                </Avatar> */}
 
                 <div className="flex flex-col space-y-1 p-2">
                   <p className="text-sm leading-none font-medium capitalize">
-                    {session?.user.name}
+                    {/* {session?.user.name} */}
                   </p>
 
                   <p className="text-muted-foreground text-xs leading-none capitalize">
-                    {session?.user.role}
+                    {/* {session?.user.role} */}
                   </p>
                 </div>
               </div>

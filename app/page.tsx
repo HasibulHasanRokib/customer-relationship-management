@@ -1,11 +1,17 @@
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
-
+import { getCurrentUser } from "@/lib/auth";
 import { ArrowRight, FileText, PieChart, Users } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

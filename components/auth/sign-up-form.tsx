@@ -28,9 +28,9 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Spinner } from "@/components/spinner";
 import { AlertCircle } from "lucide-react";
-import { registerAction } from "@/app/auth/register/action";
+import { signUp } from "@/app/actions/auth";
 
-export function RegisterForm() {
+export function SignUpForm() {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -48,7 +48,7 @@ export function RegisterForm() {
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setSuccess(null);
     startTransition(async () => {
-      const response = await registerAction(values);
+      const response = await signUp(values);
       if (response.success) {
         setSuccess(response.success);
         form.reset();

@@ -12,12 +12,12 @@ export function Header() {
         </div>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            <Link href="/auth/login">
+            <Link href="/auth/sign-in">
               <Button variant="ghost" size="sm">
                 Login
               </Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href="/auth/sign-up">
               <Button size="sm">Register</Button>
             </Link>
           </nav>
