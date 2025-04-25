@@ -1,0 +1,64 @@
+"use client";
+import { BellIcon, CreditCard, LogOut, User } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { SignOut } from "../auth/sign-out";
+
+interface UserDropdownProps {
+  name: string;
+  email: string;
+  avatarUrl?: string;
+}
+
+export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="flex h-auto w-full items-center justify-start gap-2 px-2">
+          <Avatar className="h-10 w-10 border">
+            <AvatarImage src={avatarUrl || ""} alt={name} />
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          </Avatar>
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="center" className="w-[240px] rounded p-2">
+        <DropdownMenuItem className="">
+          <div className="flex h-auto w-full items-center gap-2 px-2">
+            <Avatar className="h-10 w-10 border">
+              <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={name} />
+              <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col items-start text-sm">
+              <span className="font-medium">{name}</span>
+              <span className="text-muted-foreground text-xs">{email}</span>
+            </div>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
+          <User className="h-4 w-4" />
+          <span>My Account</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
+          <CreditCard className="h-4 w-4" />
+          <span>Billing</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
+          <BellIcon className="h-4 w-4" />
+          <span>Notifications</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2 text-red-500 focus:text-red-500">
+          <LogOut className="h-4 w-4" />
+          <SignOut />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

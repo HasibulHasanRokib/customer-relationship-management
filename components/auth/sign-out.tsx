@@ -1,14 +1,11 @@
 import { signOut } from "@/app/actions/auth";
-import { Button } from "../ui/button";
-import { LogOut } from "lucide-react";
 
 export function SignOut() {
   return (
     <form action={signOut}>
-      <Button size="sm" className="w-full" type="submit">
-        <LogOut className="mr-2 h-4 w-4" />
+      <button className="w-full" type="submit">
         Log out
-      </Button>
+      </button>
     </form>
   );
 }

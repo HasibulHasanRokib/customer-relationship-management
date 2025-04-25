@@ -27,70 +27,8 @@ import Link from "next/link";
 
 export function NavItems() {
   const pathname = usePathname();
-  const mainNavItems = [
-    {
-      title: "Dashboard",
-      href: "/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Contacts",
-      href: "/dashboard/contacts",
-      icon: Users,
-    },
-    {
-      title: "Companies",
-      href: "/dashboard/companies",
-      icon: Building2,
-    },
-    {
-      title: "Leads",
-      href: "/dashboard/leads",
-      icon: FileText,
-    },
+  console.log({ pathname });
 
-    {
-      title: "Tasks",
-      href: "/dashboard/tasks",
-      icon: Calendar,
-    },
-    {
-      title: "Email",
-      href: "/dashboard/email",
-      icon: Mail,
-    },
-    {
-      title: "Messages",
-      href: "/dashboard/messages",
-      icon: MessageSquare,
-    },
-  ];
-
-  const reportingNavItems = [
-    {
-      title: "Analytics",
-      href: "/dashboard/analytics",
-      icon: PieChart,
-    },
-    {
-      title: "Reports",
-      href: "/dashboard/reports",
-      icon: BarChart3,
-    },
-  ];
-
-  const settingsNavItems = [
-    {
-      title: "Settings",
-      href: "/dashboard/settings",
-      icon: Settings,
-    },
-    {
-      title: "Billing",
-      href: "/dashboard/billing",
-      icon: CreditCard,
-    },
-  ];
   return (
     <>
       <SidebarContent>
@@ -161,3 +99,67 @@ export function NavItems() {
     </>
   );
 }
+const mainNavItems = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Contacts",
+    href: "/dashboard/contacts",
+    icon: Users,
+  },
+  {
+    title: "Companies",
+    href: "/dashboard/companies",
+    icon: Building2,
+  },
+  {
+    title: "Leads",
+    href: "/dashboard/leads",
+    icon: FileText,
+  },
+
+  {
+    title: "Tasks",
+    href: "/dashboard/tasks",
+    icon: Calendar,
+  },
+  {
+    title: "Email",
+    href: "/dashboard/email",
+    icon: Mail,
+  },
+  {
+    title: "Messages",
+    href: "/dashboard/messages",
+    icon: MessageSquare,
+  },
+];
+
+const reportingNavItems = [
+  {
+    title: "Analytics",
+    href: "/dashboard/analytics",
+    icon: PieChart,
+  },
+  {
+    title: "Reports",
+    href: "/dashboard/reports",
+    icon: BarChart3,
+  },
+];
+
+const settingsNavItems = [
+  {
+    title: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
+  {
+    title: "Billing",
+    href: "/dashboard/billing",
+    icon: CreditCard,
+  },
+];
