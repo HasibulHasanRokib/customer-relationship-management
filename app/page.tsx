@@ -14,7 +14,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-5">
-                <h1 className="bg-gradient-to-r from-gray-800 to-green-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="from-primary bg-gradient-to-r to-green-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
                   Manage Your Customer Relationships
                 </h1>
                 <p className="text-muted-foreground mx-auto w-2xl md:text-xl">

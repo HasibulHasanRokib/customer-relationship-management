@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/lib/zod";
 
 import {
   Card,
@@ -12,9 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { loginSchema } from "@/lib/zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -24,19 +22,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Spinner } from "@/components/spinner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { loginAction } from "@/app/auth/login/action";
-import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { Spinner } from "../spinner";
 
 export function LoginForm() {
-  const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
-
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -46,24 +40,14 @@ export function LoginForm() {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setError(null);
-    setSuccess(null);
-
+    setError("");
     startTransition(async () => {
-      try {
-        const result = await loginAction(values);
-        if (result.success) {
-          setSuccess(result.success);
-          form.reset();
-          router.push("/dashboard");
-        } else if (result.error) {
-          setError(result.error);
-        }
-      } catch (err) {
-        console.log(err);
-        setError("An unexpected error occurred. Please try again.");
-      }
+      // const result = await login(values);
+      // if (result.error) {
+      //   setError(result.error);
+      // }
     });
   };
 
@@ -83,12 +67,6 @@ export function LoginForm() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          {success && (
-            <Alert variant="success" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{success}</AlertDescription>
-            </Alert>
-          )}
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -99,7 +77,12 @@ export function LoginForm() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input
+                        placeholder="name@example.com"
+                        {...field}
+                        type="email"
+                        disabled={isPending}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -116,6 +99,7 @@ export function LoginForm() {
                         type="password"
                         placeholder="••••••••"
                         {...field}
+                        disabled={isPending}
                       />
                     </FormControl>
                     <FormMessage />
@@ -130,11 +114,10 @@ export function LoginForm() {
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-center text-sm">
-            <Link href="#" className="hover:underline">
+            <Link href="/auth/reset-password" className="hover:underline">
               Forgot your password?
             </Link>
           </div>
-
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link

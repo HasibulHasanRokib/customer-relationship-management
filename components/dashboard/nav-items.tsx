@@ -48,11 +48,7 @@ export function NavItems() {
       href: "/dashboard/leads",
       icon: FileText,
     },
-    {
-      title: "Opportunities",
-      href: "/dashboard/opportunities",
-      icon: BarChart3,
-    },
+
     {
       title: "Tasks",
       href: "/dashboard/tasks",
