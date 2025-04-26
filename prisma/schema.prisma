@@ -18,6 +18,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   Session Session[]
+  Contact Contact[]
 }
 
 model Session {
@@ -27,4 +28,17 @@ model Session {
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  contactName String
+  accountName String
+  imageUrl    String?
+  email       String   @unique
+  phone       String   @unique
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

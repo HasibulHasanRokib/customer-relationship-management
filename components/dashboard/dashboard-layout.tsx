@@ -15,6 +15,7 @@ import { BreadcrumbWithCustomSeparator } from "./bread-crumb";
 
 import { UserDropdown } from "./user-dropdown";
 import { getCurrentUser } from "@/lib/auth";
+import { Button } from "../ui/button";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -56,14 +57,17 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
                 <BreadcrumbWithCustomSeparator />
 
                 <div className="flex items-center gap-x-4">
-                  <Link href={""}>
+                  <Button variant="outline" size="icon" className="relative">
                     <Bell className="h-5 w-5" />
-                  </Link>
-                  <Link href={""}>
-                    <div className="bg-primary flex h-6 w-6 items-center justify-center rounded-full">
-                      <Plus className="h-5 w-5 text-white" />
-                    </div>
-                  </Link>
+                    <span className="bg-primary text-primary-foreground absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px]">
+                      3
+                    </span>
+                  </Button>
+
+                  <Button variant="outline" size="icon">
+                    <Plus className="text-primary h-5 w-5" />
+                  </Button>
+
                   <UserDropdown
                     email={user.email}
                     name={user.name}
