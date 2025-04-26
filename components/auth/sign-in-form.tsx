@@ -121,10 +121,7 @@ export function SignInForm() {
           </div>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
-            <Link
-              href="/auth/register"
-              className="text-primary hover:underline"
-            >
+            <Link href="/auth/sign-up" className="text-primary hover:underline">
               Register
             </Link>
           </div>

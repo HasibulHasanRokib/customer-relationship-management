@@ -27,7 +27,6 @@ import Link from "next/link";
 
 export function NavItems() {
   const pathname = usePathname();
-  console.log({ pathname });
 
   return (
     <>

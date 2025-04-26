@@ -1,16 +1,15 @@
 import { z } from "zod";
 
-export const addContactSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z
-    .string()
-    .min(11, { message: "Please enter a valid phone number" })
-    .max(11),
-  company: z.string().optional(),
-  status: z.string(),
+//contact
+export const contactSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string().min(2, { message: "Required" }),
+  email: z.string().email().optional().nullable().or(z.literal("")),
+  phone: z.string().optional().nullable(),
+  company: z.string().optional().nullable(),
 });
 
+//login
 export const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
@@ -18,6 +17,7 @@ export const loginSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" }),
 });
 
+//register
 export const registerSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 2 characters" }),

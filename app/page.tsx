@@ -29,7 +29,7 @@ export default async function Home() {
                 </p>
               </div>
               <div className="space-x-4">
-                <Link href={"/auth/login"}>
+                <Link href={"/auth/sign-in"}>
                   <Button className="px-4">
                     Get Started
                     <ArrowRight className="ml-1 h-4 w-4" />

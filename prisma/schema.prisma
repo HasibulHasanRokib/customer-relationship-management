@@ -17,8 +17,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Session Session[]
-  Contact Contact[]
+  Session      Session[]
+  Contact      Contact[]
+  Company      Company[]
+  Lead         Lead[]
+  Opportunity  Opportunity[]
+  Task         Task[]
+  Document     Document[]
+  EmailAccount EmailAccount[]
 }
 
 model Session {
@@ -30,15 +36,217 @@ model Session {
   createdAt DateTime @default(now())
 }
 
+// start here
 model Contact {
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String?
+  phone        String?
+  company      String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastActivity DateTime?
+
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  customFields  Json?
+  tasks         Task[]
+  opportunities Opportunity[]
+  documents     Document[]
+  notes         Note[]
+  Company       Company?      @relation(fields: [companyId], references: [id])
+  companyId     String?
+}
+
+// Company model for storing company information
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String?
+  location  String?
+  employees String?
+  revenue   String?
+  status    String   @default("Active")
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  contacts      Contact[]
+  customFields  Json? // Store custom fields as JSON
+  opportunities Opportunity[]
+  documents     Document[]
+  notes         Note[]
+}
+
+// Lead model for storing lead information
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  email     String?
+  phone     String?
+  source    String?
+  status    String   @default("New") // New, Contacted, Qualified
+  score     Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  customFields Json? // Store custom fields as JSON
+  tasks        Task[]
+  documents    Document[]
+  notes        Note[]
+}
+
+// Opportunity model for storing opportunity information
+model Opportunity {
+  id                String    @id @default(cuid())
+  name              String
+  value             Float
+  stage             String    @default("Discovery") // Discovery, Proposal, Negotiation, Closed Won, Closed Lost
+  probability       Int       @default(50)
+  expectedCloseDate DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relationships
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  contactId    String?
+  contact      Contact?   @relation(fields: [contactId], references: [id])
+  companyId    String?
+  company      Company?   @relation(fields: [companyId], references: [id])
+  customFields Json? // Store custom fields as JSON
+  tasks        Task[]
+  documents    Document[]
+  notes        Note[]
+}
+
+// Task model for storing task information
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  priority    String    @default("Medium") // High, Medium, Low
+  status      String    @default("Pending") // Pending, In Progress, Completed
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  assignedTo    String? // User ID of assignee
+  contactId     String?
+  contact       Contact?     @relation(fields: [contactId], references: [id])
+  leadId        String?
+  lead          Lead?        @relation(fields: [leadId], references: [id])
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+}
+
+// Document model for storing document information
+model Document {
+  id        String   @id @default(cuid())
+  name      String
+  type      String // PDF, DOCX, XLSX, JPG, etc.
+  size      String
+  url       String // Storage URL
+  tags      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  contactId     String?
+  contact       Contact?     @relation(fields: [contactId], references: [id])
+  companyId     String?
+  company       Company?     @relation(fields: [companyId], references: [id])
+  leadId        String?
+  lead          Lead?        @relation(fields: [leadId], references: [id])
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+}
+
+// Note model for storing notes
+model Note {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  contactId     String?
+  contact       Contact?     @relation(fields: [contactId], references: [id])
+  companyId     String?
+  company       Company?     @relation(fields: [companyId], references: [id])
+  leadId        String?
+  lead          Lead?        @relation(fields: [leadId], references: [id])
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+}
+
+// Email account model for storing email integration information
+model EmailAccount {
+  id        String    @id @default(cuid())
+  email     String
+  provider  String // Gmail, Outlook, etc.
+  status    String    @default("Connected") // Connected, Error
+  lastSync  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relationships
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  emailTemplates EmailTemplate[]
+}
+
+// Email template model for storing email templates
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  subject   String
+  body      String
+  category  String   @default("General") // General, Sales, Marketing, etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  emailAccountId String
+  emailAccount   EmailAccount @relation(fields: [emailAccountId], references: [id])
+}
+
+// Custom field model for storing custom field definitions
+model CustomField {
+  id        String   @id @default(cuid())
+  name      String
+  type      String // Text, Number, Date, Dropdown, etc.
+  entity    String // contacts, companies, leads, opportunities
+  required  Boolean  @default(false)
+  options   Json // For dropdown fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Workflow model for storing workflow automation
+model Workflow {
   id          String   @id @default(cuid())
-  contactName String
-  accountName String
-  imageUrl    String?
-  email       String   @unique
-  phone       String   @unique
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  trigger     String // New Lead Created, Contact Updated, etc.
+  conditions  Json // Store conditions as JSON
+  actions     Json // Store actions as JSON
+  active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

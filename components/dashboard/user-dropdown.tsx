@@ -27,7 +27,7 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
           </Avatar>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-[240px] rounded p-2">
+      <DropdownMenuContent align="start" className="m-2 w-[240px] rounded p-2">
         <DropdownMenuItem className="">
           <div className="flex h-auto w-full items-center gap-2 px-2">
             <Avatar className="h-10 w-10 border">
