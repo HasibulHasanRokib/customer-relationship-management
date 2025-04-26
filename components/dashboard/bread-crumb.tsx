@@ -1,49 +1,50 @@
 "use client";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function BreadcrumbWithCustomSeparator() {
   const pathname = usePathname();
-
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 
   const breadcrumbItems = pathSegments.map((segment, index) => {
     const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
     const isLast = index === pathSegments.length - 1;
-    const label = segment.charAt(0).toUpperCase() + segment.slice(1);
+    const label = segment
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
     return (
-      <BreadcrumbItem key={href}>
+      <li key={href} className="flex items-center">
         {isLast ? (
-          <BreadcrumbPage>{label}</BreadcrumbPage>
+          <span
+            className="text-sm font-medium text-gray-500"
+            aria-current="page"
+          >
+            {label}
+          </span>
         ) : (
-          <BreadcrumbLink asChild>
-            <Link href={href}>{label}</Link>
-          </BreadcrumbLink>
+          <div className="flex items-center">
+            <Link
+              href={href}
+              className="hover:text-primary text-sm font-medium text-gray-600 transition-colors"
+            >
+              {label}
+            </Link>
+            <ChevronRight className="mx-2 h-4 w-4 text-gray-400" />
+          </div>
         )}
-        {!isLast && <BreadcrumbSeparator />}
-      </BreadcrumbItem>
+      </li>
     );
   });
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        {pathSegments.length > 0 && (
-          <>
-            <BreadcrumbSeparator />
-            {breadcrumbItems}
-          </>
-        )}
-      </BreadcrumbList>
-    </Breadcrumb>
+    <nav className="flex" aria-label="Breadcrumb">
+      <ol className="flex items-center space-x-2">
+        {pathSegments.length > 0 && <>{breadcrumbItems}</>}
+      </ol>
+    </nav>
   );
 }

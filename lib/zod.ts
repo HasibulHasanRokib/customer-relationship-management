@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+//lead
+export const leadSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  company: z.string().min(2, { message: "Company name is required" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z.string().min(5, { message: "Please enter a valid phone number" }),
+  source: z.string(),
+  status: z.string(),
+});
+
 //contact
 export const contactSchema = z.object({
   firstName: z.string(),
