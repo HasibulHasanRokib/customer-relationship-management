@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function BreadcrumbWithCustomSeparator() {
+export function NavigationCrumb() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 

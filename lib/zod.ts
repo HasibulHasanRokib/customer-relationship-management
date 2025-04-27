@@ -1,5 +1,14 @@
 import { z } from "zod";
 
+//deals
+export const dealsSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  customer: z.string().min(1, { message: "Customer name is required" }),
+  stage: z.enum(["NEW", "CONTACTED", "PROPOSAL", "NEGOTIATION", "WON", "LOST"]),
+  value: z.number().min(1, { message: "Required" }),
+  expectedClose: z.string().min(1, { message: "Date is required" }),
+});
+
 //lead
 export const leadSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),

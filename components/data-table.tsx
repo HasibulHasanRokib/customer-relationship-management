@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   searchColumn?: string;
   searchPlaceholder?: string;
+  tableName?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -39,6 +40,7 @@ export function DataTable<TData, TValue>({
   data,
   searchColumn,
   searchPlaceholder,
+  tableName,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -124,17 +126,21 @@ export function DataTable<TData, TValue>({
                 )}
               </TableBody>
             </Table>
-            <div className="flex items-center justify-end space-x-2 py-4">
-              <DataTablePagination table={table} />
-            </div>
+            {data.length >= 10 ? (
+              <div className="flex items-center justify-end space-x-2 py-4">
+                <DataTablePagination table={table} />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ) : (
         <div className="py-12 text-center">
           <FolderX className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-4 text-lg font-medium">No contacts yet</h3>
+          <h3 className="mt-4 text-lg font-medium">No {tableName} yet</h3>
           <p className="text-muted-foreground mt-1">
-            Get started by adding your first contact!
+            Get started by adding your first {tableName}!
           </p>
         </div>
       )}

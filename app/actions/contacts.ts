@@ -43,5 +43,3 @@ export async function createContact(values: z.infer<typeof contactSchema>) {
     return { error: "Failed to create contact" };
   }
 }
-
-// Get contacts

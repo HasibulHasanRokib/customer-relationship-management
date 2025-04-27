@@ -2,7 +2,6 @@
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
-  Building2,
   Calendar,
   CreditCard,
   FileText,
@@ -109,11 +108,7 @@ const mainNavItems = [
     href: "/dashboard/contacts",
     icon: Users,
   },
-  {
-    title: "Companies",
-    href: "/dashboard/companies",
-    icon: Building2,
-  },
+
   {
     title: "Leads",
     href: "/dashboard/leads",
@@ -121,8 +116,8 @@ const mainNavItems = [
   },
 
   {
-    title: "Tasks",
-    href: "/dashboard/tasks",
+    title: "Deals",
+    href: "/dashboard/deals",
     icon: Calendar,
   },
   {

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Bell, GalleryVerticalEnd, Plus } from "lucide-react";
 import { NavItems } from "./nav-items";
-import { BreadcrumbWithCustomSeparator } from "./bread-crumb";
+import { NavigationCrumb } from "./navigation-crumb";
 
 import { UserDropdown } from "./user-dropdown";
 import { getCurrentUser } from "@/lib/auth";
@@ -54,7 +54,7 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
             <header className="bg-background sticky top-0 z-30 flex h-14 items-center gap-4 border-b px-4 sm:px-6">
               <SidebarTrigger />
               <div className="flex flex-1 items-center justify-between">
-                <BreadcrumbWithCustomSeparator />
+                <NavigationCrumb />
 
                 <div className="flex items-center gap-x-4">
                   <Button variant="outline" size="icon" className="relative">

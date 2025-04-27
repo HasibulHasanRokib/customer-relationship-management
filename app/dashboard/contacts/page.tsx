@@ -32,6 +32,7 @@ export default async function ContactsPage() {
         data={contacts}
         searchColumn="email"
         searchPlaceholder="Filter emails..."
+        tableName="Contact"
       />
     </div>
   );

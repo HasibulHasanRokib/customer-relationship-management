@@ -30,6 +30,7 @@ export default async function LeadsPage() {
         data={leads}
         searchColumn="email"
         searchPlaceholder="Filter emails..."
+        tableName="Lead"
       />
     </div>
   );
