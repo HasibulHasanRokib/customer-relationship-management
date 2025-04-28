@@ -1,12 +1,28 @@
 import { z } from "zod";
 
+//tasks
+
+export const tasksSchema = z.object({
+  subject: z.string().min(1, { message: "Subject is required" }),
+  dueDate: z.date({ required_error: "Due date is required" }),
+  status: z.enum([
+    "NOT_STARTED",
+    "DEFERRED",
+    "IN_PROGRESS",
+    "COMPLETED",
+    "WAITING",
+  ]),
+  priority: z.enum(["HIGH", "HIGHEST", "LOW", "LOWEST", "NORMAL"]),
+  description: z.string(),
+});
+
 //deals
 export const dealsSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   customer: z.string().min(1, { message: "Customer name is required" }),
   stage: z.enum(["NEW", "CONTACTED", "PROPOSAL", "NEGOTIATION", "WON", "LOST"]),
   value: z.number().min(1, { message: "Required" }),
-  expectedClose: z.string().min(1, { message: "Date is required" }),
+  expectedClose: z.date({ required_error: "Date is required" }),
 });
 
 //lead

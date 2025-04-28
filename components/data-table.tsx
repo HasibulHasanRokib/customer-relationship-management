@@ -48,6 +48,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+
   const table = useReactTable({
     data,
     columns,
@@ -68,8 +69,8 @@ export function DataTable<TData, TValue>({
   return (
     <>
       {data.length > 0 ? (
-        <div>
-          <div className="flex items-center gap-3 py-3">
+        <div className="w-full overflow-x-auto">
+          <div className="flex flex-col items-start gap-3 py-3 sm:flex-row sm:items-center">
             <DataTableFilter
               table={table}
               column={searchColumn}
@@ -77,14 +78,17 @@ export function DataTable<TData, TValue>({
             />
             <DataTableViewOptions table={table} />
           </div>
-          <div className="px-2">
-            <Table>
+          <div className="rounded-md border">
+            <Table className="min-w-full">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead className="text-primary" key={header.id}>
+                        <TableHead
+                          className="text-primary px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4"
+                          key={header.id}
+                        >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -103,9 +107,13 @@ export function DataTable<TData, TValue>({
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
+                      className="hover:bg-muted/50"
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
+                        <TableCell
+                          key={cell.id}
+                          className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4"
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),
@@ -126,20 +134,20 @@ export function DataTable<TData, TValue>({
                 )}
               </TableBody>
             </Table>
-            {data.length >= 10 ? (
-              <div className="flex items-center justify-end space-x-2 py-4">
-                <DataTablePagination table={table} />
-              </div>
-            ) : (
-              ""
-            )}
           </div>
+          {data.length >= 10 && (
+            <div className="flex items-center justify-end space-x-2 py-4">
+              <DataTablePagination table={table} />
+            </div>
+          )}
         </div>
       ) : (
-        <div className="py-12 text-center">
-          <FolderX className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-4 text-lg font-medium">No {tableName} yet</h3>
-          <p className="text-muted-foreground mt-1">
+        <div className="py-8 text-center sm:py-12">
+          <FolderX className="mx-auto h-10 w-10 text-gray-400 sm:h-12 sm:w-12" />
+          <h3 className="mt-3 text-base font-medium sm:mt-4 sm:text-lg">
+            No {tableName} yet
+          </h3>
+          <p className="text-muted-foreground mt-1 text-sm sm:text-base">
             Get started by adding your first {tableName}!
           </p>
         </div>

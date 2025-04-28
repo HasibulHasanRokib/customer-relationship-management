@@ -19,6 +19,9 @@ export default async function ContactsPage() {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (

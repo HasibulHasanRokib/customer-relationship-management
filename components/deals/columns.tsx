@@ -29,11 +29,15 @@ type DealsWithUser = Deals & { user: Pick<User, "name"> };
 export const columns: ColumnDef<DealsWithUser>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: "Deal Name",
   },
   {
     accessorKey: "customer",
     header: "Customer name",
+  },
+  {
+    accessorKey: "value",
+    header: "Amount",
   },
   {
     accessorKey: "stage",
@@ -63,14 +67,29 @@ export const columns: ColumnDef<DealsWithUser>[] = [
   },
   {
     accessorKey: "expectedClose",
-    header: "Expected close",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Closing Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
-      const dateFormate = row.original.createdAt;
-      return <div>{dateFormate.toDateString()}</div>;
+      const dateFormate = row.original.expectedClose;
+      return <div>{dateFormate.toLocaleDateString()}</div>;
+    },
+  },
+
+  {
+    accessorKey: "user",
+    header: "Deal Owner",
+    cell: ({ row }) => {
+      const dealOwner = row.original.user;
+      return <div>{dealOwner.name}</div>;
     },
   },
 ];

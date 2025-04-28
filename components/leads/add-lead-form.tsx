@@ -29,11 +29,16 @@ import {
 } from "@/components/ui/select";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { leadSchema } from "@/lib/zod";
 import { Input } from "../ui/input";
+import { addLead } from "@/actions/leads";
+import { toast } from "sonner";
+import { Alert, AlertDescription } from "../ui/alert";
+import { Spinner } from "../spinner";
 
 export function AddLeadForm() {
+  const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof leadSchema>>({
     resolver: zodResolver(leadSchema),
@@ -46,8 +51,21 @@ export function AddLeadForm() {
       status: "New",
     },
   });
+  const [isPending, startTransition] = useTransition();
   const onSubmit = (values: z.infer<typeof leadSchema>) => {
-    console.log({ values });
+    setError("");
+
+    startTransition(async () => {
+      const response = await addLead(values);
+      if (response.error) {
+        setError(response.error);
+      } else {
+        toast("Deal create successful");
+        form.reset();
+        setOpen(false);
+        setError("");
+      }
+    });
   };
   return (
     <div>
@@ -65,6 +83,11 @@ export function AddLeadForm() {
               Fill in the details to add a new lead to your pipeline.
             </DialogDescription>
           </DialogHeader>
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -179,7 +202,9 @@ export function AddLeadForm() {
               </div>
 
               <DialogFooter>
-                <Button type="submit">Add Lead</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? <Spinner /> : "Add Lead"}
+                </Button>
               </DialogFooter>
             </form>
           </Form>

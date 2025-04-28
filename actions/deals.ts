@@ -47,7 +47,7 @@ export async function updateDealStage({ id, stage }: UpdateDealStageParams) {
     return { success: true, updatedDeal };
   } catch (err) {
     console.error("Error update deal stage:", err);
-    return { error: "Failed to create deals" };
+    return { error: "Failed to update deals" };
   }
 }
 

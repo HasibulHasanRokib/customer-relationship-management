@@ -18,7 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { dealsSchema } from "@/lib/zod";
@@ -34,7 +35,10 @@ import {
 import { Spinner } from "../spinner";
 import { Alert, AlertDescription } from "../ui/alert";
 import { toast } from "sonner";
-import { addDeal } from "@/app/actions/deals";
+import { addDeal } from "@/actions/deals";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "../ui/calendar";
 
 export function AddDealsForm() {
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +51,6 @@ export function AddDealsForm() {
       customer: "",
       stage: "NEW",
       value: 0,
-      expectedClose: "",
     },
   });
 
@@ -181,11 +184,36 @@ export function AddDealsForm() {
                 control={form.control}
                 name="expectedClose"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Expected Close Date</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="date" />
-                    </FormControl>
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Expected close</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground",
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}

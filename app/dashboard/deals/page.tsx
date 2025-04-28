@@ -1,4 +1,4 @@
-import { DealPipeline } from "@/components/deals/deal-pipeline";
+import { DealKanbanView } from "@/components/deals/deal-kanban-view";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AddDealsForm } from "@/components/deals/add-deals-form";
 import { getCurrentUser } from "@/lib/auth";
@@ -20,10 +20,15 @@ export default async function DealsPage() {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return (
     <>
       <div className="flex flex-col gap-4">
+        <h1 className="text-3xl font-bold tracking-tight">Deals</h1>
+
         <Tabs defaultValue="table">
           <div className="flex items-center justify-between">
             <TabsList className="gap-x-4 px-2">
@@ -43,7 +48,7 @@ export default async function DealsPage() {
             />
           </TabsContent>
           <TabsContent value="kanban">
-            <DealPipeline initialDeals={deals} />
+            <DealKanbanView initialDeals={deals} />
           </TabsContent>
         </Tabs>
       </div>

@@ -28,7 +28,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Spinner } from "../spinner";
-import { signIn } from "@/app/actions/auth";
+import { signIn } from "@/actions/auth";
 
 export function SignInForm() {
   const [error, setError] = useState<string | null>(null);

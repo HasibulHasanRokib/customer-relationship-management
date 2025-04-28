@@ -25,7 +25,7 @@ import { Alert, AlertDescription } from "../ui/alert";
 import { Input } from "../ui/input";
 import { contactSchema } from "@/lib/zod";
 import { useState, useTransition } from "react";
-import { createContact } from "@/app/actions/contacts";
+import { createContact } from "@/actions/contacts";
 import { toast } from "sonner";
 import { Spinner } from "../spinner";
 export function AddContactForm() {

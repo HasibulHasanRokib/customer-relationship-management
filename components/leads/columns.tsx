@@ -32,7 +32,7 @@ const getStatusColor = (status: string) => {
 export const columns: ColumnDef<LeadWithUser>[] = [
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Lead Name",
   },
   {
     accessorKey: "email",

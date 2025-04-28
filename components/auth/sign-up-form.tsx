@@ -28,7 +28,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Spinner } from "@/components/spinner";
 import { AlertCircle } from "lucide-react";
-import { signUp } from "@/app/actions/auth";
+import { signUp } from "@/actions/auth";
 
 export function SignUpForm() {
   const [isPending, startTransition] = useTransition();

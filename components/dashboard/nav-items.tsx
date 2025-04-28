@@ -7,7 +7,7 @@ import {
   FileText,
   LayoutDashboard,
   Mail,
-  MessageSquare,
+  ClipboardList,
   PieChart,
   Settings,
   Users,
@@ -121,14 +121,14 @@ const mainNavItems = [
     icon: Calendar,
   },
   {
+    title: "Tasks",
+    href: "/dashboard/tasks",
+    icon: ClipboardList,
+  },
+  {
     title: "Email",
     href: "/dashboard/email",
     icon: Mail,
-  },
-  {
-    title: "Messages",
-    href: "/dashboard/messages",
-    icon: MessageSquare,
   },
 ];
 

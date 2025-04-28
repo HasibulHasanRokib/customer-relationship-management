@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Deals } from "@prisma/client";
-import { updateDealStage } from "@/app/actions/deals";
+import { updateDealStage } from "@/actions/deals";
 
 const getStageColor = (stage: string) => {
   switch (stage) {
@@ -38,7 +38,7 @@ type Stage = {
   deals: Deals[];
 };
 
-export function DealPipeline({ initialDeals }: { initialDeals: Deals[] }) {
+export function DealKanbanView({ initialDeals }: { initialDeals: Deals[] }) {
   const initialStages: Stage[] = [
     { id: "NEW", title: "New", deals: [] },
     { id: "CONTACTED", title: "Contacted", deals: [] },

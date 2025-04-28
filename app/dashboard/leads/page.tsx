@@ -18,6 +18,9 @@ export default async function LeadsPage() {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
   return (
     <div className="flex flex-col gap-4">

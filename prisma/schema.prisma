@@ -21,6 +21,7 @@ model User {
   Contact Contact[]
   Lead    Lead[]
   Deals   Deals[]
+  Task    Task[]
 }
 
 model Session {
@@ -36,7 +37,7 @@ model Contact {
   id        String   @id @default(cuid())
   firstName String
   lastName  String
-  email     String?
+  email     String?  @unique
   phone     String?
   company   String?
   createdAt DateTime @default(now())
@@ -50,7 +51,7 @@ model Lead {
   id        String   @id @default(cuid())
   name      String
   company   String?
-  email     String?
+  email     String?  @unique
   phone     String?
   source    String?
   status    String   @default("New") // New, Contacted, Qualified
@@ -76,9 +77,40 @@ model Deals {
   value         Int
   customer      String
   stage         DealStage @default(NEW)
-  expectedClose String
+  expectedClose DateTime
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  DEFERRED
+  IN_PROGRESS
+  COMPLETED
+  WAITING
+}
+
+enum Priority {
+  HIGH
+  HIGHEST
+  LOW
+  LOWEST
+  NORMAL
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  subject     String
+  dueDate     DateTime?
+  status      TaskStatus @default(NOT_STARTED)
+  priority    Priority   @default(NORMAL)
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
