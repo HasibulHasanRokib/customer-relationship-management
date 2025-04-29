@@ -53,7 +53,7 @@ export default async function TasksPage() {
           <TaskKanbanView initialTasks={tasks} />
         </TabsContent>
         <TabsContent value="calendar">
-          <TaskCalendarView tasks={tasks} />
+          <TaskCalendarView data={tasks} />
         </TabsContent>
       </Tabs>
     </div>

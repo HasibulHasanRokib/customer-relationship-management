@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
             />
             <DataTableViewOptions table={table} />
           </div>
-          <div className="rounded-md border">
+          <div className="">
             <Table className="min-w-full">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
                     {headerGroup.headers.map((header) => {
                       return (
                         <TableHead
-                          className="text-primary px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4"
+                          className="text-primary px-2 py-2 text-sm whitespace-nowrap sm:px-4 sm:py-2"
                           key={header.id}
                         >
                           {header.isPlaceholder
@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
                       {row.getVisibleCells().map((cell) => (
                         <TableCell
                           key={cell.id}
-                          className="px-3 py-3 text-sm whitespace-nowrap sm:px-6 sm:py-4"
+                          className="px-2 py-2 text-sm whitespace-nowrap sm:px-4 sm:py-2"
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
             </Table>
           </div>
           {data.length >= 10 && (
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end space-x-2 py-2">
               <DataTablePagination table={table} />
             </div>
           )}

@@ -3,6 +3,8 @@ import { AddLeadForm } from "@/components/leads/add-lead-form";
 import { columns } from "@/components/leads/columns";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default async function LeadsPage() {
   const user = await getCurrentUser();
@@ -28,13 +30,15 @@ export default async function LeadsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Leads</h1>
         <AddLeadForm />
       </div>
-      <DataTable
-        columns={columns}
-        data={leads}
-        searchColumn="email"
-        searchPlaceholder="Filter emails..."
-        tableName="Lead"
-      />
+      <Suspense fallback={<Loading />}>
+        <DataTable
+          columns={columns}
+          data={leads}
+          searchColumn="email"
+          searchPlaceholder="Filter emails..."
+          tableName="Lead"
+        />
+      </Suspense>
     </div>
   );
 }

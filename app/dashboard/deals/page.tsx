@@ -5,6 +5,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/deals/columns";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default async function DealsPage() {
   const user = await getCurrentUser();
@@ -38,18 +40,20 @@ export default async function DealsPage() {
             <AddDealsForm />
           </div>
 
-          <TabsContent value="table">
-            <DataTable
-              columns={columns}
-              data={deals}
-              searchColumn="title"
-              searchPlaceholder="Filter title..."
-              tableName="Deal"
-            />
-          </TabsContent>
-          <TabsContent value="kanban">
-            <DealKanbanView initialDeals={deals} />
-          </TabsContent>
+          <Suspense fallback={<Loading />}>
+            <TabsContent value="table">
+              <DataTable
+                columns={columns}
+                data={deals}
+                searchColumn="title"
+                searchPlaceholder="Filter title..."
+                tableName="Deal"
+              />
+            </TabsContent>
+            <TabsContent value="kanban">
+              <DealKanbanView initialDeals={deals} />
+            </TabsContent>
+          </Suspense>
         </Tabs>
       </div>
     </>

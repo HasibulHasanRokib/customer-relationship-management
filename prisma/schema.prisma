@@ -104,7 +104,7 @@ enum Priority {
 model Task {
   id          String     @id @default(cuid())
   subject     String
-  dueDate     DateTime?
+  dueDate     DateTime
   status      TaskStatus @default(NOT_STARTED)
   priority    Priority   @default(NORMAL)
   description String?

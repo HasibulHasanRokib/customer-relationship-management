@@ -40,7 +40,6 @@ export async function getCurrentUser() {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET!);
-    console.log(decoded);
     const session = await db.session.findUnique({
       where: { token },
       include: { user: true },
