@@ -4,8 +4,7 @@ import { db } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/contacts/columns";
-import { Suspense } from "react";
-import Loading from "./loading";
+
 
 export default async function ContactsPage() {
   const user = await getCurrentUser();
@@ -32,7 +31,7 @@ export default async function ContactsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Contacts</h1>
         <AddContactForm />
       </div>
-      <Suspense fallback={<Loading />}>
+     
         <DataTable
           columns={columns}
           data={contacts}
@@ -40,7 +39,7 @@ export default async function ContactsPage() {
           searchPlaceholder="Filter emails..."
           tableName="Contact"
         />
-      </Suspense>
+     
     </div>
   );
 }

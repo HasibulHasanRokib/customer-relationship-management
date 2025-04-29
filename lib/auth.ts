@@ -19,7 +19,7 @@ export async function verifyPassword(
 export async function createSession(userId: string): Promise<string> {
   const token = jwt.sign({ userId }, JWT_SECRET!, { expiresIn: "7d" });
   const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 7); // 7 days from now
+  expiresAt.setDate(expiresAt.getDate() + 7);
 
   await db.session.create({
     data: {
