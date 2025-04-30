@@ -1,10 +1,8 @@
-import { AddContactForm } from "@/components/contacts/add-contact-form";
-
 import { db } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/contacts/columns";
-
+import { AddContactForm } from "@/components/contacts/add-contact-form";
 
 export default async function ContactsPage() {
   const user = await getCurrentUser();
@@ -31,15 +29,14 @@ export default async function ContactsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Contacts</h1>
         <AddContactForm />
       </div>
-     
-        <DataTable
-          columns={columns}
-          data={contacts}
-          searchColumn="email"
-          searchPlaceholder="Filter emails..."
-          tableName="Contact"
-        />
-     
+
+      <DataTable
+        columns={columns}
+        data={contacts}
+        searchColumn="email"
+        searchPlaceholder="Filter emails..."
+        tableName="Contact"
+      />
     </div>
   );
 }

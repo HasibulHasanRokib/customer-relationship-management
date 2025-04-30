@@ -25,9 +25,9 @@ import { Alert, AlertDescription } from "../ui/alert";
 import { Input } from "../ui/input";
 import { contactSchema } from "@/lib/zod";
 import { useState, useTransition } from "react";
-import { createContact } from "@/actions/contacts";
 import { toast } from "sonner";
 import { Spinner } from "../spinner";
+import { createContact } from "@/actions/contacts";
 export function AddContactForm() {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
