@@ -2,7 +2,7 @@
 
 import { Lead, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown } from "lucide-react";
+import { toast } from "sonner";
+import Link from "next/link";
+import { deleteLead } from "@/actions/leads";
 
 type LeadWithUser = Lead & { user: Pick<User, "name"> };
 
@@ -94,7 +97,15 @@ export const columns: ColumnDef<LeadWithUser>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const lead = row.original;
+      const handleDelete = async () => {
+        const res = await deleteLead(lead.id);
+        if (res.error) {
+          toast("Delete failed", { description: res.error });
+        } else if (res.success) {
+          toast("Success message", { description: "Contact has deleted" });
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -107,13 +118,18 @@ export const columns: ColumnDef<LeadWithUser>[] = [
           <DropdownMenuContent align="end" className="rounded">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(lead.id)}
             >
-              Copy lead ID
+              Copy contact ID
             </DropdownMenuItem>
-            <DropdownMenuItem>View lead</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/dashboard/leads/${lead.id}`}>View lead</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>
+              <Trash className="h-4 w-4" />
+              <span>Delete</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

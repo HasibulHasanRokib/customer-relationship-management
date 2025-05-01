@@ -28,13 +28,13 @@ export default async function LeadsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Leads</h1>
         <AddLeadForm />
       </div>
-        <DataTable
-          columns={columns}
-          data={leads}
-          searchColumn="email"
-          searchPlaceholder="Filter emails..."
-          tableName="Lead"
-        />
+      <DataTable
+        columns={columns}
+        data={leads}
+        searchColumn="email"
+        searchPlaceholder="email"
+        tableName="Lead"
+      />
     </div>
   );
 }

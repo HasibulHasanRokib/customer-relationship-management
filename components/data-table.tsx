@@ -135,11 +135,10 @@ export function DataTable<TData, TValue>({
               </TableBody>
             </Table>
           </div>
-          {data.length >= 10 && (
-            <div className="flex items-center justify-end space-x-2 py-2">
-              <DataTablePagination table={table} />
-            </div>
-          )}
+
+          <div className="flex items-center justify-end space-x-2 py-2">
+            <DataTablePagination table={table} />
+          </div>
         </div>
       ) : (
         <div className="py-8 text-center sm:py-12">

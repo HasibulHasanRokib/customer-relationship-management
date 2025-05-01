@@ -18,13 +18,13 @@ export function DataTableFilter<TData>({
   const columnInstance = table.getColumn(column);
 
   return (
-    <div className="flex items-center gap-x-2">
-      <Search className="text-primary h-4 w-4" />
+    <div className="relative max-w-sm flex-1">
+      <Search className="text-primary absolute top-2.5 left-2 h-4 w-4" />
       <Input
-        placeholder={placeholder}
+        className="pl-8"
+        placeholder={`Search ${placeholder}...`}
         value={(columnInstance?.getFilterValue() as string) ?? ""}
         onChange={(event) => columnInstance?.setFilterValue(event.target.value)}
-        className="max-w-sm"
       />
     </div>
   );

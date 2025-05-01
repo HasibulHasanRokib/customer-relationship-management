@@ -6,11 +6,11 @@ import {
   CreditCard,
   FileText,
   LayoutDashboard,
-  Mail,
   ClipboardList,
   PieChart,
   Settings,
   Users,
+  Building2,
 } from "lucide-react";
 
 import {
@@ -114,6 +114,11 @@ const mainNavItems = [
     href: "/dashboard/leads",
     icon: FileText,
   },
+  {
+    title: "Companies",
+    href: "/dashboard/companies",
+    icon: Building2,
+  },
 
   {
     title: "Deals",
@@ -126,9 +131,9 @@ const mainNavItems = [
     icon: ClipboardList,
   },
   {
-    title: "Email",
-    href: "/dashboard/email",
-    icon: Mail,
+    title: "Documents",
+    href: "/dashboard/documents",
+    icon: FileText,
   },
 ];
 

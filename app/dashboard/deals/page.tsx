@@ -6,7 +6,6 @@ import { db } from "@/lib/prisma";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/deals/columns";
 
-
 export default async function DealsPage() {
   const user = await getCurrentUser();
 
@@ -39,19 +38,18 @@ export default async function DealsPage() {
             <AddDealsForm />
           </div>
 
-            <TabsContent value="table">
-              <DataTable
-                columns={columns}
-                data={deals}
-                searchColumn="title"
-                searchPlaceholder="Filter title..."
-                tableName="Deal"
-              />
-            </TabsContent>
-            <TabsContent value="kanban">
-              <DealKanbanView initialDeals={deals} />
-            </TabsContent>
-      
+          <TabsContent value="table">
+            <DataTable
+              columns={columns}
+              data={deals}
+              searchColumn="title"
+              searchPlaceholder="title"
+              tableName="Deal"
+            />
+          </TabsContent>
+          <TabsContent value="kanban">
+            <DealKanbanView initialDeals={deals} />
+          </TabsContent>
         </Tabs>
       </div>
     </>

@@ -41,7 +41,7 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
                         <GalleryVerticalEnd className="size-4" />
                       </div>
                       <div className="flex flex-col gap-0.5 leading-none">
-                        <span className="font-semibold">Hello world</span>
+                        <span className="font-semibold">CRM</span>
                       </div>
                     </Link>
                   </SidebarMenuButton>

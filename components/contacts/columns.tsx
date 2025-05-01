@@ -2,7 +2,7 @@
 
 import { Contact, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown } from "lucide-react";
+import Link from "next/link";
+import { deleteContact } from "@/actions/contacts";
+import { toast } from "sonner";
 
 type ContactWithUser = Contact & { user: Pick<User, "name"> };
 
@@ -54,7 +57,15 @@ export const columns: ColumnDef<ContactWithUser>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const contact = row.original;
+      const handleDelete = async () => {
+        const res = await deleteContact(contact.id);
+        if (res.error) {
+          toast("Delete failed", { description: res.error });
+        } else if (res.success) {
+          toast("Success message", { description: "Contact has deleted" });
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -67,13 +78,20 @@ export const columns: ColumnDef<ContactWithUser>[] = [
           <DropdownMenuContent align="end" className="rounded">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(contact.id)}
             >
               Copy contact ID
             </DropdownMenuItem>
-            <DropdownMenuItem>View contact</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/dashboard/contacts/${contact.id}`}>
+                View contact
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>
+              <Trash className="h-4 w-4" />
+              <span>Delete</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

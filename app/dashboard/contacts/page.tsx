@@ -34,7 +34,7 @@ export default async function ContactsPage() {
         columns={columns}
         data={contacts}
         searchColumn="email"
-        searchPlaceholder="Filter emails..."
+        searchPlaceholder="email"
         tableName="Contact"
       />
     </div>

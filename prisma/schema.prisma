@@ -17,11 +17,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Session Session[]
-  Contact Contact[]
-  Lead    Lead[]
-  Deals   Deals[]
-  Task    Task[]
+  Session  Session[]
+  Contact  Contact[]
+  Lead     Lead[]
+  Deals    Deals[]
+  Task     Task[]
+  Company  Company[]
+  Document Document[]
 }
 
 model Session {
@@ -112,6 +114,40 @@ model Task {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String?
+  location  String?
+  employees String?
+  revenue   String?
+  status    String   @default("Active") // Active, Inactive
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  name        String?
+  type        String // PDF, DOCX, XLSX, JPG, etc.
+  size        String
+  url         String
+  tags        Json?
+  relatedTo   String?
+  relatedType String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -45,7 +45,7 @@ export default async function TasksPage() {
             columns={columns}
             data={tasks}
             searchColumn="subject"
-            searchPlaceholder="Filter subject..."
+            searchPlaceholder="subject"
             tableName="Task"
           />
         </TabsContent>

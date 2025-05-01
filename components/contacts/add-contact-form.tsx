@@ -52,9 +52,11 @@ export function AddContactForm() {
       if (response.error) {
         setError(response.error);
       } else {
-        toast("Contact create successful");
+        toast("Contact created", {
+          description: "Your contact was successfully created.",
+        });
         form.reset();
-        setOpen(false);
+
         setError("");
       }
     });
@@ -62,7 +64,13 @@ export function AddContactForm() {
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          setOpen(isOpen);
+          if (!isOpen) form.reset();
+        }}
+      >
         <DialogTrigger asChild>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />

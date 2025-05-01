@@ -1,4 +1,42 @@
 import { z } from "zod";
+//documents
+export const uploadDocumentSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  type: z.string(),
+  size: z.string(),
+  url: z.string().url({ message: "Please enter a valid URL" }),
+  relatedTo: z.string().optional(),
+  relatedType: z.string().optional(),
+  tags: z.string().optional(),
+});
+export const documentsSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Document name must be at least 2 characters" })
+    .optional()
+    .or(z.literal("")),
+  relatedTo: z.string().optional(),
+  relatedType: z.string().optional(),
+  tags: z.string().optional(),
+  file: z
+    .any()
+    .refine((file) => file?.length === 1, { message: "File is required" }),
+});
+
+//companies
+export const companiesSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  industry: z.string().min(2, { message: "Industry is required" }),
+  location: z.string().min(2, { message: "Location is required" }),
+  employees: z.string(),
+  revenue: z.string(),
+  status: z.string(),
+  website: z
+    .string()
+    .url({ message: "Please enter a valid URL" })
+    .optional()
+    .or(z.literal("")),
+});
 
 //tasks
 

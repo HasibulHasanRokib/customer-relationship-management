@@ -64,16 +64,23 @@ export function AddDealsForm() {
       if (response.error) {
         setError(response.error);
       } else {
-        toast("Deal create successful");
+        toast("Deal created", {
+          description: "Your deal was successfully created.",
+        });
         form.reset();
-        setOpen(false);
         setError("");
       }
     });
   };
   return (
     <div>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          setOpen(isOpen);
+          if (!isOpen) form.reset();
+        }}
+      >
         <DialogTrigger asChild>
           <Button>
             <Plus className="mr-2 h-4 w-4" />

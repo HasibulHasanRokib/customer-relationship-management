@@ -83,9 +83,10 @@ export function CreateTaskForm() {
       if (response.error) {
         setError(response.error);
       } else {
-        toast("Deal create successful");
+        toast("Task created", {
+          description: "Your task was successfully created.",
+        });
         form.reset();
-        setOpen(false);
         setError("");
       }
     });
@@ -93,7 +94,13 @@ export function CreateTaskForm() {
 
   return (
     <div>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          setOpen(isOpen);
+          if (!isOpen) form.reset();
+        }}
+      >
         <DialogTrigger asChild>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />

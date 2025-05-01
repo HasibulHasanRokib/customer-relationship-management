@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useState, useTransition } from "react";
 import {
   Dialog,
   DialogContent,
@@ -27,50 +27,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { companiesSchema } from "@/lib/zod";
 import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
-import { useState, useTransition } from "react";
-import { leadSchema } from "@/lib/zod";
 import { Input } from "../ui/input";
-import { addLead } from "@/actions/leads";
-import { toast } from "sonner";
-import { Alert, AlertDescription } from "../ui/alert";
 import { Spinner } from "../spinner";
+import { Alert, AlertDescription } from "../ui/alert";
 
-export function AddLeadForm() {
+export function AddCompany() {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const form = useForm<z.infer<typeof leadSchema>>({
-    resolver: zodResolver(leadSchema),
+  const [isPending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof companiesSchema>>({
+    resolver: zodResolver(companiesSchema),
     defaultValues: {
       name: "",
-      company: "",
-      email: "",
-      phone: "",
-      source: "Website",
-      status: "New",
+      industry: "",
+      location: "",
+      employees: "10-25",
+      revenue: "Under $1M",
+      status: "Active",
+      website: "",
     },
   });
-  const [isPending, startTransition] = useTransition();
-  const onSubmit = (values: z.infer<typeof leadSchema>) => {
-    setError("");
 
-    startTransition(async () => {
-      const response = await addLead(values);
-      if (response.error) {
-        setError(response.error);
-      } else {
-        toast("Lead created", {
-          description: "Your lead was successfully created.",
-        });
-        form.reset();
+  function onSubmit(values: z.infer<typeof companiesSchema>) {}
 
-        setError("");
-      }
-    });
-  };
   return (
-    <div>
+    <>
       <Dialog
         open={open}
         onOpenChange={(isOpen) => {
@@ -81,14 +66,14 @@ export function AddLeadForm() {
         <DialogTrigger asChild>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
-            Add Lead
+            Add Company
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New Lead</DialogTitle>
+            <DialogTitle>Add New Company</DialogTitle>
             <DialogDescription>
-              Fill in the details to add a new lead to your pipeline.
+              Fill in the details to add a new company to your CRM.
             </DialogDescription>
           </DialogHeader>
           {error && (
@@ -103,20 +88,7 @@ export function AddLeadForm() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="John Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company</FormLabel>
+                    <FormLabel>Company Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Acme Inc." {...field} />
                     </FormControl>
@@ -126,12 +98,12 @@ export function AddLeadForm() {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="industry"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Industry</FormLabel>
                     <FormControl>
-                      <Input placeholder="john@example.com" {...field} />
+                      <Input placeholder="Technology" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,43 +111,81 @@ export function AddLeadForm() {
               />
               <FormField
                 control={form.control}
-                name="phone"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="(555) 123-4567" {...field} />
+                      <Input placeholder="New York, NY" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="website"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Website</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-3 gap-4">
                 <FormField
                   control={form.control}
-                  name="source"
+                  name="employees"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Source</FormLabel>
+                      <FormLabel>Employees</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl className="w-full">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a source" />
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select size" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Website">Website</SelectItem>
-                          <SelectItem value="Referral">Referral</SelectItem>
-                          <SelectItem value="Social Media">
-                            Social Media
-                          </SelectItem>
-                          <SelectItem value="Email Campaign">
-                            Email Campaign
-                          </SelectItem>
-                          <SelectItem value="Trade Show">Trade Show</SelectItem>
+                          <SelectItem value="1-10">1-10</SelectItem>
+                          <SelectItem value="10-25">10-25</SelectItem>
+                          <SelectItem value="25-50">25-50</SelectItem>
+                          <SelectItem value="50-100">50-100</SelectItem>
+                          <SelectItem value="100-250">100-250</SelectItem>
+                          <SelectItem value="250-500">250-500</SelectItem>
+                          <SelectItem value="500+">500+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="revenue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Annual Revenue</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select revenue" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Under $1M">Under $1M</SelectItem>
+                          <SelectItem value="$1M-$10M">$1M-$10M</SelectItem>
+                          <SelectItem value="$10M-$50M">$10M-$50M</SelectItem>
+                          <SelectItem value="$50M-$100M">$50M-$100M</SelectItem>
+                          <SelectItem value="$100M+">$100M+</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -192,15 +202,14 @@ export function AddLeadForm() {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <FormControl className="w-full">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a status" />
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select status" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="New">New</SelectItem>
-                          <SelectItem value="Contacted">Contacted</SelectItem>
-                          <SelectItem value="Qualified">Qualified</SelectItem>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -208,16 +217,16 @@ export function AddLeadForm() {
                   )}
                 />
               </div>
-
               <DialogFooter>
                 <Button type="submit" disabled={isPending}>
-                  {isPending ? <Spinner /> : "Add Lead"}
+                  {" "}
+                  {isPending ? <Spinner /> : "Add Company"}
                 </Button>
               </DialogFooter>
             </form>
           </Form>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
