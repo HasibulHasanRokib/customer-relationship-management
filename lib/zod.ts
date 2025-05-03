@@ -1,4 +1,14 @@
 import { z } from "zod";
+
+//custom-field
+export const customFieldSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  type: z.string(),
+  required: z.boolean().default(false).optional(),
+  entity: z.string(),
+  options: z.string().optional(),
+});
+
 //documents
 export const uploadDocumentSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -80,6 +90,7 @@ export const contactSchema = z.object({
   email: z.string().email().optional().nullable().or(z.literal("")),
   phone: z.string().optional().nullable(),
   company: z.string().optional().nullable(),
+  customFields: z.record(z.string()),
 });
 
 //login

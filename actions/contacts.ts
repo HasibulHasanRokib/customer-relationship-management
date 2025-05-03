@@ -40,7 +40,19 @@ export async function deleteContact(id: string) {
 }
 
 // Create contact
-export async function createContact(values: z.infer<typeof contactSchema>) {
+
+type CreateContactParams = {
+  values: z.infer<typeof contactSchema>;
+  customFields: {
+    customFieldId: string;
+    value: string;
+  }[];
+};
+
+export async function createContact({
+  values,
+  customFields,
+}: CreateContactParams) {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -58,7 +70,7 @@ export async function createContact(values: z.infer<typeof contactSchema>) {
   const { firstName, lastName, email, phone, company } = validatedFields.data;
 
   try {
-    await db.contact.create({
+    const newContact = await db.contact.create({
       data: {
         firstName,
         lastName,
@@ -68,6 +80,16 @@ export async function createContact(values: z.infer<typeof contactSchema>) {
         userId: user.id,
       },
     });
+
+    if (customFields.length > 0) {
+      await db.customFieldValue.createMany({
+        data: customFields.map((f) => ({
+          contactId: newContact.id,
+          customFieldId: f.customFieldId,
+          value: f.value,
+        })),
+      });
+    }
 
     revalidatePath("/dashboard/contacts");
     return { success: true };

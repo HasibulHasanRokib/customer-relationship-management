@@ -8,7 +8,7 @@ export default async function CompaniesPage() {
   const user = await getCurrentUser();
   const companies = await db.company.findMany({
     where: {
-      id: user?.id,
+      userId: user?.id,
     },
   });
   return (

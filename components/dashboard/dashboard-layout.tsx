@@ -65,7 +65,9 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
                   </Button>
 
                   <Button variant="outline" size="icon">
-                    <Plus className="text-primary h-5 w-5" />
+                    <Link href={"/dashboard/import-export"}>
+                      <Plus className="text-primary h-5 w-5" />
+                    </Link>
                   </Button>
 
                   <UserDropdown

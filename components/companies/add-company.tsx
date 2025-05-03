@@ -34,8 +34,12 @@ import { Input } from "../ui/input";
 import { Spinner } from "../spinner";
 import { Alert, AlertDescription } from "../ui/alert";
 
+import { createCompanyAction } from "@/actions/companies";
+import { toast } from "sonner";
+
 export function AddCompany() {
   const [error, setError] = useState<string | null>(null);
+
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -52,15 +56,30 @@ export function AddCompany() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof companiesSchema>) {}
+  function onSubmit(values: z.infer<typeof companiesSchema>) {
+    setError(null);
 
+    startTransition(async () => {
+      const result = await createCompanyAction(values);
+
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        toast("Success", { description: "Company created successfully!" });
+        form.reset();
+      }
+    });
+  }
   return (
     <>
       <Dialog
         open={open}
         onOpenChange={(isOpen) => {
           setOpen(isOpen);
-          if (!isOpen) form.reset();
+          if (!isOpen) {
+            form.reset();
+            setError(null);
+          }
         }}
       >
         <DialogTrigger asChild>
@@ -69,7 +88,7 @@ export function AddCompany() {
             Add Company
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Company</DialogTitle>
             <DialogDescription>
@@ -81,6 +100,7 @@ export function AddCompany() {
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -217,9 +237,9 @@ export function AddCompany() {
                   )}
                 />
               </div>
+
               <DialogFooter>
                 <Button type="submit" disabled={isPending}>
-                  {" "}
                   {isPending ? <Spinner /> : "Add Company"}
                 </Button>
               </DialogFooter>

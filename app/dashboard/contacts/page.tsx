@@ -23,11 +23,16 @@ export default async function ContactsPage() {
     },
   });
 
+  const customFields = await db.customField.findMany({
+    where: { entity: "CONTACT" },
+    orderBy: { createdAt: "asc" },
+  });
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Contacts</h1>
-        <AddContactForm />
+        <AddContactForm customFields={customFields} />
       </div>
 
       <DataTable

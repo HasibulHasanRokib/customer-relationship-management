@@ -17,13 +17,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Session  Session[]
-  Contact  Contact[]
-  Lead     Lead[]
-  Deals    Deals[]
-  Task     Task[]
-  Company  Company[]
-  Document Document[]
+  Session     Session[]
+  Contact     Contact[]
+  Lead        Lead[]
+  Deals       Deals[]
+  Task        Task[]
+  Company     Company[]
+  Document    Document[]
+  CustomField CustomField[]
 }
 
 model Session {
@@ -45,8 +46,9 @@ model Contact {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CustomFieldValue CustomFieldValue[]
 }
 
 model Lead {
@@ -133,6 +135,49 @@ model Company {
   // Relationships
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CustomField {
+  id        String     @id @default(cuid())
+  name      String
+  type      FieldType
+  required  Boolean    @default(false)
+  entity    EntityType
+  options   Json?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CustomFieldValue CustomFieldValue[]
+}
+
+enum FieldType {
+  TEXT
+  NUMBER
+  DATE
+  DROPDOWN
+  EMAIL
+}
+
+enum EntityType {
+  CONTACT
+  COMPANY
+  LEAD
+  OPPORTUNITY
+}
+
+model CustomFieldValue {
+  id            String      @id @default(cuid())
+  contactId     String
+  contact       Contact     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  customFieldId String
+  customField   CustomField @relation(fields: [customFieldId], references: [id], onDelete: Cascade)
+  value         String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([contactId, customFieldId])
 }
 
 model Document {
