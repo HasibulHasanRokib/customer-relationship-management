@@ -1,5 +1,5 @@
 "use client";
-import { BellIcon, CreditCard, LogOut, User } from "lucide-react";
+import { BellIcon, CreditCard, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -23,7 +23,9 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
         <div className="flex h-auto w-full items-center justify-start gap-2 px-2">
           <Avatar className="h-10 w-10 border">
             <AvatarImage src={avatarUrl || ""} alt={name} />
-            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-primary">
+              {name.charAt(0)}
+            </AvatarFallback>
           </Avatar>
         </div>
       </DropdownMenuTrigger>
@@ -31,8 +33,10 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
         <DropdownMenuItem className="">
           <div className="flex h-auto w-full items-center gap-2 px-2">
             <Avatar className="h-10 w-10 border">
-              <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={name} />
-              <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+              <AvatarImage src={avatarUrl || ""} alt={name} />
+              <AvatarFallback className="text-primary">
+                {name.charAt(0)}
+              </AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start text-sm">
               <span className="font-medium">{name}</span>
@@ -54,8 +58,7 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
           <span>Notifications</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2 text-red-500 focus:text-red-500">
-          <LogOut className="h-4 w-4" />
+        <DropdownMenuItem className="text-destructive focus:text-destructive flex cursor-pointer items-center gap-2 px-3 py-2">
           <SignOut />
         </DropdownMenuItem>
       </DropdownMenuContent>

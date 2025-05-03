@@ -2,11 +2,14 @@
   "name": "codetree-crm",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node lib/seed.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -40,6 +43,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.56.1",
+    "recharts": "^2.15.3",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
     "uploadthing": "^7.6.0",

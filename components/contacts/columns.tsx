@@ -47,6 +47,14 @@ export const columns: ColumnDef<ContactWithUser>[] = [
     header: "Phone",
   },
   {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => {
+      const dateFormate = row.original.createdAt;
+      return <div>{dateFormate.toLocaleDateString()}</div>;
+    },
+  },
+  {
     accessorKey: "user",
     header: "Contact Owner",
     cell: ({ row }) => {

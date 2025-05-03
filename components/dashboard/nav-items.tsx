@@ -1,9 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import {
-  BarChart3,
   Calendar,
-  CreditCard,
   FileText,
   LayoutDashboard,
   ClipboardList,
@@ -143,11 +141,6 @@ const reportingNavItems = [
     href: "/dashboard/analytics",
     icon: PieChart,
   },
-  {
-    title: "Reports",
-    href: "/dashboard/reports",
-    icon: BarChart3,
-  },
 ];
 
 const settingsNavItems = [
@@ -155,10 +148,5 @@ const settingsNavItems = [
     title: "Settings",
     href: "/dashboard/settings",
     icon: Settings,
-  },
-  {
-    title: "Billing",
-    href: "/dashboard/billing",
-    icon: CreditCard,
   },
 ];

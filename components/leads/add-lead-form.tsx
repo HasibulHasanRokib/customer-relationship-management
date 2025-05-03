@@ -37,6 +37,14 @@ import { toast } from "sonner";
 import { Alert, AlertDescription } from "../ui/alert";
 import { Spinner } from "../spinner";
 
+const leadSource = [
+  { label: "Website", value: "Website" },
+  { label: "Referral", value: "Referral" },
+  { label: "Social Media", value: "SocialMedia" },
+  { label: "Email", value: "Email" },
+  { label: "Trade Show", value: "TradeShow" },
+];
+
 export function AddLeadForm() {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -48,7 +56,7 @@ export function AddLeadForm() {
       email: "",
       phone: "",
       source: "Website",
-      status: "New",
+      status: "NEW",
     },
   });
   const [isPending, startTransition] = useTransition();
@@ -167,15 +175,11 @@ export function AddLeadForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Website">Website</SelectItem>
-                          <SelectItem value="Referral">Referral</SelectItem>
-                          <SelectItem value="Social Media">
-                            Social Media
-                          </SelectItem>
-                          <SelectItem value="Email Campaign">
-                            Email Campaign
-                          </SelectItem>
-                          <SelectItem value="Trade Show">Trade Show</SelectItem>
+                          {leadSource.map((item) => (
+                            <SelectItem key={item.value} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -198,9 +202,9 @@ export function AddLeadForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="New">New</SelectItem>
-                          <SelectItem value="Contacted">Contacted</SelectItem>
-                          <SelectItem value="Qualified">Qualified</SelectItem>
+                          <SelectItem value="NEW">New</SelectItem>
+                          <SelectItem value="CONTACTED">Contacted</SelectItem>
+                          <SelectItem value="QUALIFIED">Qualified</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

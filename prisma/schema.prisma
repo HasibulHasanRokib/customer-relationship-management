@@ -37,7 +37,7 @@ model Session {
 }
 
 model Contact {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   firstName String
   lastName  String
   email     String?  @unique
@@ -51,16 +51,30 @@ model Contact {
   CustomFieldValue CustomFieldValue[]
 }
 
+enum LeadSource {
+  Website
+  Referral
+  SocialMedia
+  Email
+  TradeShow
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+}
+
 model Lead {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   name      String
   company   String?
-  email     String?  @unique
+  email     String?     @unique
   phone     String?
-  source    String?
-  status    String   @default("New") // New, Contacted, Qualified
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  source    LeadSource?
+  status    LeadStatus  @default(NEW)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -127,7 +141,7 @@ model Company {
   location  String?
   employees String?
   revenue   String?
-  status    String   @default("Active") // Active, Inactive
+  status    String   @default("Active")
   website   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
