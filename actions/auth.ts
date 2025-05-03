@@ -7,6 +7,7 @@ import {
   deleteSession,
 } from "@/lib/auth";
 import { db } from "@/lib/prisma";
+import { seedDummyData } from "@/lib/seed";
 import { loginSchema, registerSchema } from "@/lib/zod";
 
 import { cookies } from "next/headers";
@@ -32,13 +33,15 @@ export async function signUp(values: z.infer<typeof registerSchema>) {
     }
 
     const hashedPassword = await hashPassword(password);
-    await db.user.create({
+    const newUser = await db.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
       },
     });
+
+    await seedDummyData(newUser.id);
 
     return { success: "User created successfully" };
   } catch (error) {

@@ -5,7 +5,6 @@ import {
   FileText,
   LayoutDashboard,
   ClipboardList,
-  PieChart,
   Settings,
   Users,
   Building2,
@@ -49,27 +48,7 @@ export function NavItems() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Reporting</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {reportingNavItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.href}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.href}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -135,18 +114,10 @@ const mainNavItems = [
   },
 ];
 
-const reportingNavItems = [
-  {
-    title: "Analytics",
-    href: "/dashboard/analytics",
-    icon: PieChart,
-  },
-];
-
 const settingsNavItems = [
   {
     title: "Settings",
-    href: "/dashboard/settings",
+    href: "/dashboard/settings/custom-fields",
     icon: Settings,
   },
 ];
