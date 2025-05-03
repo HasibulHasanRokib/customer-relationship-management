@@ -5,6 +5,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { leadSchema } from "@/lib/zod";
+import { LeadSource, LeadStatus } from "@prisma/client";
 
 export async function deleteLead(id: string) {
   try {
@@ -64,8 +65,8 @@ export async function addLead(values: z.infer<typeof leadSchema>) {
         email,
         phone,
         company,
-        source,
-        status,
+        source: source as LeadSource,
+        status: status as LeadStatus,
         userId: user.id,
       },
     });
