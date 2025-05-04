@@ -120,7 +120,7 @@ export const columns: ColumnDef<LeadWithUser>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(lead.id)}
             >
-              Copy contact ID
+              Copy lead Id
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={`/dashboard/leads/${lead.id}`}>View lead</Link>

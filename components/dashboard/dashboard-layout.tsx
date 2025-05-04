@@ -9,13 +9,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Bell, GalleryVerticalEnd, Plus } from "lucide-react";
+import { GalleryVerticalEnd, Plus } from "lucide-react";
 import { NavItems } from "./nav-items";
 import { NavigationCrumb } from "./navigation-crumb";
 
 import { UserDropdown } from "./user-dropdown";
 import { getCurrentUser } from "@/lib/auth";
 import { Button } from "../ui/button";
+import NotificationSidebar from "./notification-sidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -57,12 +58,7 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
                 <NavigationCrumb />
 
                 <div className="flex items-center gap-x-4">
-                  <Button variant="outline" size="icon" className="relative">
-                    <Bell className="h-5 w-5" />
-                    <span className="bg-primary text-primary-foreground absolute -top-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px]">
-                      3
-                    </span>
-                  </Button>
+                  <NotificationSidebar />
 
                   <Button variant="outline" size="icon">
                     <Link href={"/dashboard/import-export"}>

@@ -35,7 +35,7 @@ export function DashboardCharts({
   monthlyData,
   leadSourceData,
 }: DashboardChartsProps) {
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#7e22ce"];
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
       <Card className="col-span-4">
@@ -53,7 +53,7 @@ export function DashboardCharts({
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="value" fill="#8884d9" name="Values ($)" />
+              <Bar dataKey="value" fill="#f43f5e" name="Values ($)" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

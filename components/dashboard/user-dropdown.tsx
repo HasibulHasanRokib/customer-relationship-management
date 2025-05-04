@@ -1,5 +1,5 @@
 "use client";
-import { BellIcon, CreditCard, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SignOut } from "../auth/sign-out";
+import { useRouter } from "next/navigation";
 
 interface UserDropdownProps {
   name: string;
@@ -17,6 +18,7 @@ interface UserDropdownProps {
 }
 
 export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
+  const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,18 +47,14 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
+        <DropdownMenuItem
+          onClick={() => router.push("/dashboard/profile")}
+          className="flex cursor-pointer items-center gap-2 px-3 py-2"
+        >
           <User className="h-4 w-4" />
           <span>My Account</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
-          <CreditCard className="h-4 w-4" />
-          <span>Billing</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex cursor-pointer items-center gap-2 px-3 py-2">
-          <BellIcon className="h-4 w-4" />
-          <span>Notifications</span>
-        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem className="text-destructive focus:text-destructive flex cursor-pointer items-center gap-2 px-3 py-2">
           <SignOut />

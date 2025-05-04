@@ -8,6 +8,7 @@ import {
   Settings,
   Users,
   Building2,
+  ChartPie,
 } from "lucide-react";
 
 import {
@@ -79,6 +80,11 @@ const mainNavItems = [
     title: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Analytics",
+    href: "/dashboard/analytics",
+    icon: ChartPie,
   },
   {
     title: "Contacts",

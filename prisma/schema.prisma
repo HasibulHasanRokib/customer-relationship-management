@@ -43,6 +43,7 @@ model Contact {
   email     String?  @unique
   phone     String?
   company   String?
+  imageUrl  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
