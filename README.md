@@ -86,4 +86,5 @@ npm run dev
 - Add environment variables in Vercel's project settings
 - Deploy!
 ### Screenshot
-![screencapture-localhost-3000-dashboard-2025-07-05-13_40_54](https://github.com/user-attachments/assets/511982eb-6ec6-4d4a-b724-46388e9e60fc)
+
+![screencapture-localhost-3000-dashboard-2025-07-05-13_40_54](https://github.com/user-attachments/assets/d0a937dc-5d02-4680-9883-0be8a10a8582)
