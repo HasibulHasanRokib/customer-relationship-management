@@ -1,0 +1,227 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  imageUrl  String?
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Session      Session[]
+  Contact      Contact[]
+  Lead         Lead[]
+  Deals        Deals[]
+  Task         Task[]
+  Company      Company[]
+  Document     Document[]
+  CustomField  CustomField[]
+  Notification Notification[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String?  @unique
+  phone     String?
+  company   String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CustomFieldValue CustomFieldValue[]
+}
+
+enum LeadSource {
+  Website
+  Referral
+  SocialMedia
+  Email
+  TradeShow
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+}
+
+model Lead {
+  id        String      @id @default(cuid())
+  name      String
+  company   String?
+  email     String?     @unique
+  phone     String?
+  source    LeadSource?
+  status    LeadStatus  @default(NEW)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum DealStage {
+  NEW
+  CONTACTED
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+}
+
+model Deals {
+  id            String    @id @default(cuid())
+  title         String
+  value         Int
+  customer      String
+  stage         DealStage @default(NEW)
+  expectedClose DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  DEFERRED
+  IN_PROGRESS
+  COMPLETED
+  WAITING
+}
+
+enum Priority {
+  HIGH
+  HIGHEST
+  LOW
+  LOWEST
+  NORMAL
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  subject     String
+  dueDate     DateTime
+  status      TaskStatus @default(NOT_STARTED)
+  priority    Priority   @default(NORMAL)
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  industry  String?
+  location  String?
+  employees String?
+  revenue   String?
+  status    String   @default("Active")
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CustomField {
+  id        String     @id @default(cuid())
+  name      String
+  type      FieldType
+  required  Boolean    @default(false)
+  entity    EntityType
+  options   Json?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CustomFieldValue CustomFieldValue[]
+}
+
+enum FieldType {
+  TEXT
+  NUMBER
+  DATE
+  DROPDOWN
+  EMAIL
+}
+
+enum EntityType {
+  CONTACT
+  COMPANY
+  LEAD
+  OPPORTUNITY
+}
+
+model CustomFieldValue {
+  id            String      @id @default(cuid())
+  contactId     String
+  contact       Contact     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  customFieldId String
+  customField   CustomField @relation(fields: [customFieldId], references: [id], onDelete: Cascade)
+  value         String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([contactId, customFieldId])
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  name        String?
+  type        String // PDF, DOCX, XLSX, JPG, etc.
+  size        String
+  url         String
+  tags        Json?
+  relatedTo   String?
+  relatedType String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  read        Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
