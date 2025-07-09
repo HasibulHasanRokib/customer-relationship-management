@@ -2,20 +2,14 @@
 
 import { Lead, User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, Trash } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { ArrowUpDown } from "lucide-react";
-import { toast } from "sonner";
-import Link from "next/link";
+
 import { deleteLead } from "@/actions/leads";
+import { ColumnsAction } from "../contacts/columns-action";
+import { toast } from "sonner";
 
 type LeadWithUser = Lead & { user: Pick<User, "name"> };
 
@@ -108,30 +102,7 @@ export const columns: ColumnDef<LeadWithUser>[] = [
       };
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="rounded">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(lead.id)}
-            >
-              Copy lead Id
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={`/dashboard/leads/${lead.id}`}>View lead</Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleDelete}>
-              <Trash className="h-4 w-4" />
-              <span>Delete</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ColumnsAction handleDelete={handleDelete} id={lead.id} name="leads" />
       );
     },
   },

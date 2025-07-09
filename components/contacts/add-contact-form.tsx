@@ -28,20 +28,8 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { Spinner } from "../spinner";
 import { createContact } from "@/actions/contacts";
-import { CustomField } from "@prisma/client";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 
-export function AddContactForm({
-  customFields,
-}: {
-  customFields: CustomField[];
-}) {
+export function AddContactForm() {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -54,27 +42,14 @@ export function AddContactForm({
       email: "",
       phone: "",
       company: "",
-      customFields: {},
     },
   });
 
   const onSubmit = (values: z.infer<typeof contactSchema>) => {
     setError("");
 
-    const { customFields: customFieldValues, ...contactData } = values;
-
-    const customFieldsArray = Object.entries(customFieldValues).map(
-      ([customFieldId, value]) => ({
-        customFieldId,
-        value: String(value),
-      }),
-    );
-
     startTransition(async () => {
-      const response = await createContact({
-        values,
-        customFields: customFieldsArray,
-      });
+      const response = await createContact(values);
       if (response.error) {
         setError(response.error);
       } else {
@@ -188,73 +163,6 @@ export function AddContactForm({
                   </FormItem>
                 )}
               />
-              {/* Dynamic Custom Fields */}
-              {customFields.map((field) => {
-                const fieldName = `customFields.${field.id}` as const;
-
-                if (field.type === "DROPDOWN") {
-                  const options = (field.options ?? "")
-                    .toString()
-                    .split(",")
-                    .map((opt: string) => opt.trim())
-                    .filter(Boolean);
-
-                  return (
-                    <FormField
-                      key={field.id}
-                      control={form.control}
-                      name={fieldName}
-                      render={({ field: f }) => (
-                        <FormItem>
-                          <FormLabel className="capitalize">
-                            {field.name}
-                          </FormLabel>
-                          <Select onValueChange={f.onChange} value={f.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue
-                                  placeholder={`Select ${field.name}`}
-                                />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {options.map((opt: string) => (
-                                <SelectItem
-                                  className="capitalize"
-                                  key={opt}
-                                  value={opt}
-                                >
-                                  {opt}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  );
-                }
-
-                return (
-                  <FormField
-                    key={field.id}
-                    control={form.control}
-                    name={fieldName}
-                    render={({ field: f }) => (
-                      <FormItem>
-                        <FormLabel className="capitalize">
-                          {field.name}
-                        </FormLabel>
-                        <FormControl>
-                          <Input {...f} required={field.required} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                );
-              })}
 
               <DialogFooter>
                 <Button type="submit" disabled={isPending}>

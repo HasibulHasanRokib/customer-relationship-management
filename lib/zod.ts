@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+//
+export const addFeedbackSchema = z.object({
+  rating: z.number().min(1),
+  comment: z.string().min(3),
+});
+
 //update-profile
 export const profileSchema = z
   .object({
@@ -44,15 +50,6 @@ export const profileSchema = z
       }
     }
   });
-
-//custom-field
-export const customFieldSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  type: z.string(),
-  required: z.boolean().default(false).optional(),
-  entity: z.string(),
-  options: z.string().optional(),
-});
 
 //documents
 export const uploadDocumentSchema = z.object({

@@ -7,7 +7,7 @@ export async function seedDummyData(userId: string) {
       {
         firstName: "Alice",
         lastName: "Johnson",
-        email: `ex+${Math.random().toString(36).slice(2, 8)}@example.com`,
+        email: `ex${Math.random().toString(36).slice(2, 8)}@example.com`,
         phone: "555-1000",
         company: "TechCorp",
         userId,

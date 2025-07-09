@@ -2,17 +2,10 @@
 
 import { Company } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { ArrowUpDown } from "lucide-react";
+import { ColumnsAction } from "../contacts/columns-action";
 
 export const columns: ColumnDef<Company>[] = [
   {
@@ -74,30 +67,17 @@ export const columns: ColumnDef<Company>[] = [
     },
   },
   {
-    id: "actions",
+    accessorKey: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const company = row.original;
+      const handleDelete = async () => {};
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="rounded">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy contact ID
-            </DropdownMenuItem>
-            <DropdownMenuItem>View contact</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ColumnsAction
+          handleDelete={handleDelete}
+          id={company.id}
+          name="companies"
+        />
       );
     },
   },

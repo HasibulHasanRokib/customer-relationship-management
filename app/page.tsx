@@ -2,12 +2,17 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/auth";
+
 import { ArrowRight, FileText, PieChart, Users } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
   const user = await getCurrentUser();
+  if (user?.role === "admin") {
+    redirect("/admin");
+  }
+
   if (user) {
     redirect("/dashboard");
   }

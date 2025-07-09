@@ -9,15 +9,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { GalleryVerticalEnd, Plus } from "lucide-react";
+import { GalleryVerticalEnd } from "lucide-react";
 import { NavItems } from "./nav-items";
 import { NavigationCrumb } from "./navigation-crumb";
 
 import { UserDropdown } from "./user-dropdown";
 import { getCurrentUser } from "@/lib/auth";
-import { Button } from "../ui/button";
-import NotificationSidebar from "./notification-sidebar";
-import { db } from "@/lib/prisma";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -29,15 +26,6 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
     return null;
   }
 
-  const notifications = await db.notification.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full flex-col">
@@ -47,19 +35,23 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton size="lg" asChild>
-                    <Link href="/dashboard">
+                    <Link
+                      href={user.role === "admin" ? "/admin" : "/dashboard"}
+                    >
                       <div className="bg-primary text-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                         <GalleryVerticalEnd className="size-4" />
                       </div>
                       <div className="flex flex-col gap-0.5 leading-none">
-                        <span className="font-semibold">CRM</span>
+                        <span className="font-semibold">
+                          {user.role === "admin" ? "Admin panel" : "CRM"}
+                        </span>
                       </div>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarHeader>
-            <NavItems />
+            <NavItems userRole={user.role} />
           </Sidebar>
           <main className="flex-1">
             <header className="bg-background sticky top-0 z-30 flex h-14 items-center gap-4 border-b px-4 sm:px-6">
@@ -68,14 +60,6 @@ export async function DashboardLayout({ children }: DashboardLayoutProps) {
                 <NavigationCrumb />
 
                 <div className="flex items-center gap-x-4">
-                  <NotificationSidebar notifications={notifications} />
-
-                  <Button variant="outline" size="icon">
-                    <Link href={"/dashboard/import-export"}>
-                      <Plus className="text-primary h-5 w-5" />
-                    </Link>
-                  </Button>
-
                   <UserDropdown
                     email={user.email}
                     name={user.name}

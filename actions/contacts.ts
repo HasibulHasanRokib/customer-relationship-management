@@ -49,18 +49,7 @@ export async function deleteContact(id: string) {
 
 // Create contact
 
-type CreateContactParams = {
-  values: z.infer<typeof contactSchema>;
-  customFields: {
-    customFieldId: string;
-    value: string;
-  }[];
-};
-
-export async function createContact({
-  values,
-  customFields,
-}: CreateContactParams) {
+export async function createContact(values: z.infer<typeof contactSchema>) {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -96,16 +85,6 @@ export async function createContact({
         userId: user.id,
       },
     });
-
-    if (customFields.length > 0) {
-      await db.customFieldValue.createMany({
-        data: customFields.map((f) => ({
-          contactId: newContact.id,
-          customFieldId: f.customFieldId,
-          value: f.value,
-        })),
-      });
-    }
 
     revalidatePath("/dashboard/contacts");
     return { success: true };

@@ -77,7 +77,11 @@ export async function signIn(values: z.infer<typeof loginSchema>) {
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
     });
-    return { success: "Login successful." };
+
+    return {
+      success: true,
+      user,
+    };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong!" };
