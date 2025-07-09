@@ -29,9 +29,11 @@ import { AlertCircle } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Spinner } from "../spinner";
 import { signIn } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -48,6 +50,10 @@ export function SignInForm() {
       const result = await signIn(values);
       if (result.error) {
         setError(result.error);
+      } else {
+        router.push(
+          `${result.user?.role === "admin" ? "/admin" : "/dashboard"}`,
+        );
       }
     });
   };

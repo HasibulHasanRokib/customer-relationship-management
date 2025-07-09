@@ -25,7 +25,7 @@ export function UserDropdown({ name, email, avatarUrl }: UserDropdownProps) {
         <div className="flex h-auto w-full items-center justify-start gap-2 px-2">
           <Avatar className="h-10 w-10 border">
             <AvatarImage src={avatarUrl || ""} alt={name} />
-            <AvatarFallback className="text-primary">
+            <AvatarFallback className="text-primary font-bold">
               {name.charAt(0)}
             </AvatarFallback>
           </Avatar>

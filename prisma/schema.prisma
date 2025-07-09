@@ -7,13 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum userRole {
+  user
+  admin
+}
+
 model User {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
   imageUrl  String?
   password  String
-  role      String   @default("user")
+  role      userRole @default(user)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -24,8 +29,19 @@ model User {
   Task         Task[]
   Company      Company[]
   Document     Document[]
-  CustomField  CustomField[]
   Notification Notification[]
+  Feedback     Feedback[]
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  rating    Int      @default(0)
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Session {
@@ -48,9 +64,8 @@ model Contact {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId           String
-  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  CustomFieldValue CustomFieldValue[]
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum LeadSource {
@@ -151,49 +166,6 @@ model Company {
   // Relationships
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model CustomField {
-  id        String     @id @default(cuid())
-  name      String
-  type      FieldType
-  required  Boolean    @default(false)
-  entity    EntityType
-  options   Json?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  userId           String
-  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  CustomFieldValue CustomFieldValue[]
-}
-
-enum FieldType {
-  TEXT
-  NUMBER
-  DATE
-  DROPDOWN
-  EMAIL
-}
-
-enum EntityType {
-  CONTACT
-  COMPANY
-  LEAD
-  OPPORTUNITY
-}
-
-model CustomFieldValue {
-  id            String      @id @default(cuid())
-  contactId     String
-  contact       Contact     @relation(fields: [contactId], references: [id], onDelete: Cascade)
-  customFieldId String
-  customField   CustomField @relation(fields: [customFieldId], references: [id], onDelete: Cascade)
-  value         String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  @@unique([contactId, customFieldId])
 }
 
 model Document {
